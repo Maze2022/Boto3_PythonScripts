@@ -1,0 +1,57 @@
+ file_name = file,
+    bucket_name ="week14tutorial12344828473",
+    Key= file.split("/")[-1])
+    
+import glob 
+import boto3 
+import os 
+import sys 
+ 
+
+#target location of the files on S3  
+
+S3_BUCKET_NAME = 'week14tutorial12344828473' 
+ 
+
+# Enter your own credentials file profile name below
+
+AWS_PROFILE='my_profile' 
+ 
+
+#Location of source files 
+
+DATA_FILES_LOCATION = '/Boto3_PythonScripts/S3/Pics'  
+ 
+
+session = boto3.Session(profile_name=AWS_PROFILE) 
+
+s3 = session.client('s3') 
+ 
+
+# The list of files we're uploading to S3  
+
+files = glob.glob(DATA_FILES_LOCATION) 
+
+try: 
+
+    file_num=1 
+
+    for file in files: 
+
+        s3_file = f"{S3_FOLDER_NAME}/{os.path.basename(file)}"         
+
+        s3.upload_file(file, S3_BUCKET_NAME, s3_file) 
+
+        print(f"File {file_num} of {len(files)} uploaded") 
+
+        file_num= file_num + 1 
+
+except: 
+
+    print("An unexpected error occured uploading the Data files to S3") 
+
+    sys.exit(-1) 
+
+     
+
+print("All Data files uploaded to S3 Ok") 
